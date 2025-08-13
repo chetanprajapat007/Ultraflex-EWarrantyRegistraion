@@ -8,6 +8,8 @@ class User_model extends CI_Model {
         $this->load->database();
     }
 
+    // NOTE: This method is not currently used by the Admin controller's login function
+    // as a temporary fix has been applied to use hardcoded credentials.
     public function get_user($email, $password) {
         $this->db->where('email', $email);
         $this->db->where('password', md5($password));
