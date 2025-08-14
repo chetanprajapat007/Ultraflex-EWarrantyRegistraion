@@ -28,27 +28,41 @@
                         <tr>
                             <th>ID</th>
                             <th>Customer Name</th>
-                            <th>Customer Contact</th>
-                            <th>Dealer Name</th>
-                            <th>Bill Number</th>
-                            <th>Registration Date</th>
+                            <th>Contact</th>
+                            <th>Email</th>
+                            <th>Dealer</th>
+                            <th>Bill No.</th>
+                            <th>Products</th>
+                            <th>Date</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php if (!empty($warranties)): ?>
                             <?php foreach ($warranties as $warranty): ?>
                                 <tr>
-                                    <td><?php echo $warranty['id']; ?></td>
-                                    <td><?php echo $warranty['customer_name']; ?></td>
-                                    <td><?php echo $warranty['customer_contact']; ?></td>
-                                    <td><?php echo $warranty['dealer_name']; ?></td>
-                                    <td><?php echo $warranty['bill_number']; ?></td>
-                                    <td><?php echo $warranty['registration_date']; ?></td>
+                                    <td><?php echo html_escape($warranty['id']); ?></td>
+                                    <td><?php echo html_escape($warranty['customer_name']); ?></td>
+                                    <td><?php echo html_escape($warranty['customer_contact']); ?></td>
+                                    <td><?php echo html_escape($warranty['customer_email']); ?></td>
+                                    <td><?php echo html_escape($warranty['dealer_name']); ?></td>
+                                    <td><?php echo html_escape($warranty['bill_number']); ?></td>
+                                    <td>
+                                        <?php if (!empty($warranty['products'])): ?>
+                                            <ul>
+                                                <?php foreach ($warranty['products'] as $product): ?>
+                                                    <li><?php echo html_escape($product['product_name']); ?> (<?php echo html_escape($product['product_size']); ?>)</li>
+                                                <?php endforeach; ?>
+                                            </ul>
+                                        <?php else: ?>
+                                            No products listed.
+                                        <?php endif; ?>
+                                    </td>
+                                    <td><?php echo date('d-m-Y H:i', strtotime($warranty['registration_date'])); ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="6" class="text-center">No warranties found.</td>
+                                <td colspan="8" class="text-center">No warranties found.</td>
                             </tr>
                         <?php endif; ?>
                     </tbody>

@@ -5,9 +5,7 @@ class Admin extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        // NOTE: The User_model is not used for the temporary login fix,
-        // but the file should exist in application/models/.
-        // $this->load->model('User_model');
+        $this->load->model('User_model');
         $this->load->library('session');
         $this->load->helper('url');
     }
@@ -21,12 +19,12 @@ class Admin extends CI_Controller {
     }
 
     public function login() {
-        // This is a temporary fix to guarantee login works.
-        // It bypasses the database and uses hardcoded credentials.
         $email = $this->input->post('email');
         $password = $this->input->post('password');
 
-        if ($email === 'Ultraflex@gmail.cpm' && $password === 'Ultra@112233') {
+        $user = $this->User_model->get_user($email, $password);
+
+        if ($user) {
             $this->session->set_userdata('is_admin_login', true);
             redirect('admin/dashboard');
         } else {
@@ -40,9 +38,8 @@ class Admin extends CI_Controller {
             redirect('admin');
         }
 
-        // The dashboard view is loaded, but data display will depend on the Warranty_model.
-        // To keep this minimal, we are not loading the warranty model here.
-        $data['warranties'] = array(); // Pass an empty array
+        $this->load->model('Warranty_model');
+        $data['warranties'] = $this->Warranty_model->get_all_warranties();
         $this->load->view('admin/dashboard', $data);
     }
 

@@ -26,7 +26,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`email`, `password`) VALUES
-('Ultraflex@gmail.cpm', 'f4542db96a39e80255551c63342335b2');
+('ultraflex@gmail.com', 'f4542db96a39e80255551c63342335b2');
 
 -- --------------------------------------------------------
 

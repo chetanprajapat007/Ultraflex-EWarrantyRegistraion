@@ -38,7 +38,19 @@ class Warranty_model extends CI_Model {
     }
 
     public function get_all_warranties() {
-        $query = $this->db->get('warranties');
-        return $query->result_array();
+        // Fetch all warranties
+        $warranties = $this->db->order_by('registration_date', 'DESC')->get('warranties')->result_array();
+
+        // For each warranty, fetch its products
+        foreach ($warranties as $key => $warranty) {
+            $products = $this->db->get_where('warranty_products', array('warranty_id' => $warranty['id']))->result_array();
+            $warranties[$key]['products'] = $products;
+        }
+
+        return $warranties;
+    }
+
+    public function get_first_product_for_warranty($warranty_id) {
+        return $this->db->get_where('warranty_products', array('warranty_id' => $warranty_id), 1)->row_array();
     }
 }
